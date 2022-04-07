@@ -1,2 +1,2 @@
 int intpart(int n);
-double precisepart(int n, int intpart, int precision);
+double squareroot(int n, int intpart, int precision);
