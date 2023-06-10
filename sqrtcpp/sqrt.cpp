@@ -4,7 +4,7 @@ double squareroot(int n, int intpart, int precision);
 using namespace std;
 int main() {
     int n = 37;
-    cout <<" square root of "<< n << "is " << squareroot(n, intpart(n), 3);
+    cout <<" square root of "<< n << " is " << squareroot(n, intpart(n), 3);
 }
 
 int intpart(int n) {
