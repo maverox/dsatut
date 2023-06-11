@@ -15,7 +15,7 @@ bool isPossible(coordinates dest, vector<vector<int>> &maze, vector<vector<int>>
     return false;
 }
 void pathfinder(coordinates pos, vector<vector<int>> &maze, vector<vector<int>> &visited, int n, string path, vector<string> &ans)
-{   cout << "invoked";
+{   
     if ((pos.x == n - 1) && (pos.x == n - 1))
     {
         ans.push_back(path);
@@ -75,7 +75,7 @@ vector<string> ratMazeSolution(vector<vector<int>> &maze, int n)
         return ans;
     }
     vector<vector<int>> visited = maze;
-    for (auto &i : maze)
+    for (auto &i : visited)
     {
         for (auto &j : i)
         {
@@ -84,24 +84,27 @@ vector<string> ratMazeSolution(vector<vector<int>> &maze, int n)
     }
 
     coordinates src = {0, 0};
-    pathfinder(src, maze, visited, n, path, ans); // remember to check the ans before and after sorting ans (lexicographically)
+    pathfinder(src, maze, visited, n, path, ans);
+    sort(ans.begin(),  ans.end()); // remember to check the ans before and after sorting ans (lexicographically)
     return ans;
 }
 int main()
 {
     vector<vector<int>> maze{
         {1, 0, 0, 0},
-        {1, 1, 0, 0},
-        {0, 1, 1, 0},
-        {1, 1, 0, 1}};
+        {1, 1, 1, 1},
+        {1, 1, 1, 1},
+        {0, 0, 0, 1}};
     int n = 4;
     vector<string> ans = ratMazeSolution(maze, n);
+    
     for (auto &i : ans)
     {
         for (auto &j : i)
         {
-            cout << j << ' ';
+            cout << j << "->";
+            
         }
-        cout << '\n';
+        cout<<"dest" << '\n';
     }
 }
