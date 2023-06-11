@@ -15,7 +15,7 @@ bool isPossible(coordinates dest, vector<vector<int>> &maze, vector<vector<int>>
     return false;
 }
 void pathfinder(coordinates pos, vector<vector<int>> &maze, vector<vector<int>> &visited, int n, string path, vector<string> &ans)
-{
+{   cout << "invoked";
     if ((pos.x == n - 1) && (pos.x == n - 1))
     {
         ans.push_back(path);
@@ -31,7 +31,7 @@ void pathfinder(coordinates pos, vector<vector<int>> &maze, vector<vector<int>> 
         path.push_back('L');
         pathfinder(dest, maze, visited, n, path, ans);
         path.pop_back();
-        visited[pos.x][pos.y] = 0;
+        
     }
     // R movement
     dest.x = pos.x + 1;
@@ -41,7 +41,7 @@ void pathfinder(coordinates pos, vector<vector<int>> &maze, vector<vector<int>> 
         path.push_back('R');
         pathfinder(dest, maze, visited, n, path, ans);
         path.pop_back();
-        visited[pos.x][pos.y] = 0;
+        
     }
     // U movement
     dest.x = pos.x;
@@ -51,7 +51,7 @@ void pathfinder(coordinates pos, vector<vector<int>> &maze, vector<vector<int>> 
         path.push_back('U');
         pathfinder(dest, maze, visited, n, path, ans);
         path.pop_back();
-        visited[pos.x][pos.y] = 0;
+        
     }
     // D movement
     dest.x = pos.x;
@@ -61,11 +61,12 @@ void pathfinder(coordinates pos, vector<vector<int>> &maze, vector<vector<int>> 
         path.push_back('D');
         pathfinder(dest, maze, visited, n, path, ans);
         path.pop_back();
-        visited[pos.x][pos.y] = 0;
+        
     }
+    visited[pos.x][pos.y] = 0;
 }
 vector<string> ratMazeSolution(vector<vector<int>> &maze, int n)
-{
+{   
     vector<string> ans;
     string path = "";
     if (maze[0][0] == 0)
@@ -73,7 +74,7 @@ vector<string> ratMazeSolution(vector<vector<int>> &maze, int n)
         ans.push_back("");
         return ans;
     }
-    vector<vector<int>> visited;
+    vector<vector<int>> visited = maze;
     for (auto &i : maze)
     {
         for (auto &j : i)
