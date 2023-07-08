@@ -19,7 +19,10 @@ private:
     Node *tail; // Pointer to the tail of the list
 public:
     // Constructor
-    LinkedList() : head(nullptr), tail(nullptr){}
+    LinkedList() : head(nullptr), tail(nullptr)
+    {
+        tail = head;
+    }
 
     // Destructor
     ~LinkedList()
@@ -49,16 +52,14 @@ public:
         if (head == nullptr)
         {
             head = newNode;
+            head->next = nullptr;
+            tail = head;
         }
         else
         {
-            Node *current = head;
-            while (current->next != nullptr)
-            {
-                current = current->next;
-            }
-            current->next = newNode;
-            newNode->next = nullptr;
+            tail->next = newNode;
+            tail = newNode;
+            tail->next = nullptr;
         }
     }
 
@@ -101,20 +102,53 @@ public:
             {
                 current = current->next;
             }
-            delete current->next->next;
-            current->next = nullptr;
+            delete current->next;
+            tail = current;
+            tail->next = nullptr;
         }
         else
         {
-            Node *itr = head;
-            for (int i = 1; i < pos - 1; i++)
+            if (pos <= length() && pos >= 1)
             {
-                itr = itr->next;
+                Node *itr = head;
+                for (int i = 1; i < pos - 1; i++)
+                {
+                    itr = itr->next;
+                }
+                Node *temp = itr->next;
+                itr->next = itr->next->next;
+                delete temp;
             }
-            Node *temp = itr->next;
-            itr->next = itr->next->next;
-            delete temp;
+            else
+            {
+                cerr << "Invalid position\n";
+            }
         }
+    } // return the head pointer
+    Node *Head()
+    {
+        return head;
+    } // returns the tail pointer
+    Node *Tail()
+    {
+        return tail;
+    } // helper recursive function
+    Node *reverseHelper(Node *head)
+    {
+        if (head->next == nullptr)
+        {
+            return head;
+        }
+        Node *subHead = reverseHelper(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return subHead;
+    }
+    // reverses this linked list using recursion
+    void reverse()
+    {
+        tail = head;
+        head = reverseHelper(head);
     }
 };
 
@@ -126,11 +160,11 @@ int main()
     list.append(1);
     list.append(2);
     list.append(3);
-
     list.prepend(0);
-
     list.display();
-    list.del(2);
+    list.reverse();
+    list.display();
+    list.del(list.length());
     list.display();
     return 0;
 }
