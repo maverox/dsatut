@@ -41,8 +41,17 @@ public:
     void prepend(int value)
     {
         Node *newNode = new Node(value);
-        newNode->next = head;
-        head = newNode;
+        if (head == nullptr)
+        {
+            head = newNode;
+            head->next = nullptr;
+            tail = head;
+        }
+        else
+        {
+            newNode->next = head;
+            head = newNode;
+        }
     }
 
     // Function to add a new node at the end of the list
