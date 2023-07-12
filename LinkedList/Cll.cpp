@@ -44,14 +44,16 @@ public:
         if (head == nullptr)
         {
             head = newNode;
-            tail = head;
             head->next = head;
+            tail = head;
         }
         else
-        {
+        {   tail->next = newNode;
             newNode->next = head;
             head = newNode;
+            
         }
+        display();
     }
 
     // Function to add a new node at the end of the list
@@ -60,9 +62,9 @@ public:
         Node *newNode = new Node(value);
         if (head == nullptr)
         {
-            tail = newNode;
-            head = tail;
-            tail->next = head;
+            head = newNode;
+            head->next = head;
+            tail = head;
         }
         else
         {
@@ -70,6 +72,7 @@ public:
             tail = newNode;
             tail->next = head;
         }
+        display();
     }
     // to insert at a pos
     void insert(int value, int pos)
@@ -93,6 +96,7 @@ public:
             newNode->next = itr->next;
             itr->next = newNode;
         }
+        display();
     }
     // Function to display the elements in the list
     void display()
@@ -102,7 +106,7 @@ public:
         {
             cout << current->data << "->";
             current = current->next;
-        } while (current->next != head);
+        } while (current != head);
         cout << 'x' << endl;
     }
     // function to return the length of LL
@@ -156,6 +160,7 @@ public:
                 cerr << "Invalid position\n";
             }
         }
+        display();
     } // return the head pointer
     Node *Head()
     {
@@ -167,7 +172,7 @@ public:
     } // helper recursive function
     Node *reverseHelper(Node *head)
     {
-        if (head->next == head)
+        if (head->next == tail)
         {
             return head;
         }
@@ -182,6 +187,7 @@ public:
         tail = head;
         head = reverseHelper(head);
         tail->next = head; // basically the same code as singly linked list as circular can be imagined as opening and reversing then finally closing with this line of code.
+        display();
     }
 };
 
@@ -189,15 +195,18 @@ public:
 int main()
 {
     LinkedList list;
-
+    
+    list.prepend(0);
+    list.prepend(-1);
+    list.prepend(-2);
     list.append(1);
     list.append(2);
     list.append(3);
-    //list.prepend(0);
-    list.display();
-    //list.reverse();
-    list.display();
+    
+    
+    list.reverse();
+    
     list.del(list.length());
-    list.display();
+    
     return 0;
 }
