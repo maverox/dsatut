@@ -29,20 +29,29 @@ public:
     {
         // Delete all nodes in the list
         Node *current = head;
-        while (current != nullptr)
+        do
         {
             Node *temp = current;
             current = current->next;
             delete temp;
-        }
+        } while (current->next != head);
     }
 
     // Function to add a new node at the beginning of the list
     void prepend(int value)
     {
         Node *newNode = new Node(value);
-        newNode->next = head;
-        head = newNode;
+        if (head == nullptr)
+        {
+            head = newNode;
+            tail = head;
+            head->next = head;
+        }
+        else
+        {
+            newNode->next = head;
+            head = newNode;
+        }
     }
 
     // Function to add a new node at the end of the list
@@ -51,27 +60,49 @@ public:
         Node *newNode = new Node(value);
         if (head == nullptr)
         {
-            head = newNode;
-            head->next = nullptr;
-            tail = head;
+            tail = newNode;
+            head = tail;
+            tail->next = head;
         }
         else
         {
             tail->next = newNode;
             tail = newNode;
-            tail->next = nullptr;
+            tail->next = head;
         }
     }
-
+    // to insert at a pos
+    void insert(int value, int pos)
+    {
+        Node *newNode = new Node(value);
+        if (pos == 1)
+        {
+            prepend(value);
+        }
+        else if (pos == length())
+        {
+            append(value);
+        }
+        else
+        {
+            Node *itr = head;
+            for (int i = 1; i < pos - 1; i++)
+            {
+                itr = itr->next;
+            }
+            newNode->next = itr->next;
+            itr->next = newNode;
+        }
+    }
     // Function to display the elements in the list
     void display()
     {
         Node *current = head;
-        while (current != nullptr)
+        do
         {
             cout << current->data << "->";
             current = current->next;
-        }
+        } while (current->next != head);
         cout << 'x' << endl;
     }
     // function to return the length of LL
@@ -79,11 +110,11 @@ public:
     {
         Node *current = head;
         int cnt = 0;
-        while (current != nullptr)
+        do
         {
             cnt++;
             current = current->next;
-        }
+        } while (current->next != head);
         return cnt++;
     }
     // function to delete a node at position
@@ -93,18 +124,19 @@ public:
         {
             Node *temp = head;
             head = head->next;
+            tail->next = head;
             delete temp;
         }
         else if (pos == length())
         {
             Node *current = head;
-            while (current->next->next != nullptr)
+            while (current->next->next != head)
             {
                 current = current->next;
             }
             delete current->next;
             tail = current;
-            tail->next = nullptr;
+            tail->next = head;
         }
         else
         {
@@ -135,7 +167,7 @@ public:
     } // helper recursive function
     Node *reverseHelper(Node *head)
     {
-        if (head->next == nullptr)
+        if (head->next == head)
         {
             return head;
         }
@@ -149,6 +181,7 @@ public:
     {
         tail = head;
         head = reverseHelper(head);
+        tail->next = head; // basically the same code as singly linked list as circular can be imagined as opening and reversing then finally closing with this line of code.
     }
 };
 
@@ -160,9 +193,9 @@ int main()
     list.append(1);
     list.append(2);
     list.append(3);
-    list.prepend(0);
+    //list.prepend(0);
     list.display();
-    list.reverse();
+    //list.reverse();
     list.display();
     list.del(list.length());
     list.display();
