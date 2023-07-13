@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 using namespace std;
 // Node class represents a single node in the linked list
 class Node
@@ -48,10 +49,10 @@ public:
             tail = head;
         }
         else
-        {   tail->next = newNode;
+        {
+            tail->next = newNode;
             newNode->next = head;
             head = newNode;
-            
         }
         display();
     }
@@ -189,24 +190,39 @@ public:
         tail->next = head; // basically the same code as singly linked list as circular can be imagined as opening and reversing then finally closing with this line of code.
         display();
     }
+    // to detect loop
+    bool isCyclic()
+    {
+        if (head == nullptr)
+            cout << "empty list\n";
+        map<Node *, bool> visited;
+        Node *itr = head->next;
+        while (itr != nullptr)
+        {
+            if (visited[itr])
+                return true;
+            visited[itr] = true;
+            itr = itr->next;
+        }
+        return false;
+    }
 };
 
 // Test the linked list implementation
 int main()
 {
     LinkedList list;
-    
+
     list.prepend(0);
     list.prepend(-1);
     list.prepend(-2);
     list.append(1);
     list.append(2);
     list.append(3);
-    
-    
+    (list.isCyclic()) ? cout << "Cycle detected \n" : cout << " no Cycle detected \n";
     list.reverse();
-    
+
     list.del(list.length());
-    
+
     return 0;
 }
