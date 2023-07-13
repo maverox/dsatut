@@ -210,13 +210,19 @@ public:
     {
         if (head == nullptr)
             cout << "empty list\n";
-        Node *slow = head;
-        Node *fast = head;
-        while (fast != nullptr) {
-            if (fast == slow ) return true;
-            if (fast!= nullptr) return false;
-            fast = fast->next->next;
-            slow = slow->next;
+        else
+        {
+            Node *slow = head;
+            Node *fast = head;
+            while (fast != nullptr)
+            {
+                if (fast == slow)
+                    return true;
+                if (fast != nullptr)
+                    return false;
+                fast = fast->next->next;
+                slow = slow->next;
+            }
         }
     }
 };
@@ -232,6 +238,7 @@ int main()
     list.append(1);
     list.append(2);
     list.append(3);
+    (list.isCyclic()) ? cout << "Cycle detected \n" : cout << " no Cycle detected \n";
     (list.floydsCycleDetection()) ? cout << "Cycle detected \n" : cout << " no Cycle detected \n";
     list.reverse();
 
