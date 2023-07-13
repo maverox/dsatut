@@ -159,6 +159,31 @@ public:
         tail = head;
         head = reverseHelper(head);
     }
+    // reverse in k groups
+    Node *K_reverseHelper(Node *head, int k)
+    {   if (head == nullptr) return nullptr;
+
+        Node *prev = nullptr;
+        Node *current = head;
+        Node *next = nullptr;
+        int cnt = 1;
+        while (cnt <= k && current != nullptr)
+        {
+            next = current->next;
+            current->next = prev;
+            prev = current;
+            current = next;
+            cnt++;
+        }
+        
+        if (next!= nullptr) {
+            head->next = K_reverseHelper(next, k);
+        }
+        return prev;
+    }
+    void k_reverse(int k) {
+        head = K_reverseHelper(head, k);
+    }
 };
 
 // Test the linked list implementation
@@ -168,10 +193,15 @@ int main()
 
     list.append(1);
     list.append(2);
+    list.append(4);
+    list.append(67);
     list.append(3);
+    list.append(2);
+    list.append(2);
+    list.append(76);
     list.prepend(0);
     list.display();
-    list.reverse();
+    list.k_reverse(3);
     list.display();
     list.del(list.length());
     list.display();
