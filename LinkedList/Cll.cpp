@@ -107,7 +107,7 @@ public:
             cout << current->data << "->";
             current = current->next;
         } while (current != head);
-        cout << 'x' << endl;
+        cout << head->data << endl;
     }
     // function to return the length of LL
     int length()
@@ -189,21 +189,52 @@ public:
         tail->next = head; // basically the same code as singly linked list as circular can be imagined as opening and reversing then finally closing with this line of code.
         display();
     }
+    // detects a loop using floyds algorithm 
+    Node* detectLoop () {
+        Node* slow = head;
+        Node* fast = head;
+        while(true) {
+            if (fast == nullptr) return nullptr;
+            if (fast == slow) break;
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        slow = head;
+        while (fast != slow) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        return slow;
+    }
+    // delete a loop from if exists
+    void removeLoop() {
+        Node* loopAt = detectLoop();
+        if (loopAt != nullptr) {
+            Node* itr = loopAt;
+            while (itr->next != loopAt) 
+                itr = itr->next;
+            itr->next = nullptr;
+        cout << "loop removed\n";
+        } else {
+            cout << "no loop detected\n";
+        }
+    }
 };
 
 // Test the linked list implementation
 int main()
 {
     LinkedList list;
-    
     list.prepend(0);
     list.prepend(-1);
-    list.prepend(-2);
+    
     list.append(1);
     list.append(2);
     list.append(3);
     
-    
+    cout << "loop found at " << list.detectLoop()->data << endl;
+    list.removeLoop();
+    list.Tail()->next = list.Head();//removal of loop undone
     list.reverse();
     
     list.del(list.length());
