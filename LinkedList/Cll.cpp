@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 using namespace std;
 // Node class represents a single node in the linked list
 class Node
@@ -48,10 +49,10 @@ public:
             tail = head;
         }
         else
-        {   tail->next = newNode;
+        {
+            tail->next = newNode;
             newNode->next = head;
             head = newNode;
-            
         }
         display();
     }
@@ -189,26 +190,44 @@ public:
         tail->next = head; // basically the same code as singly linked list as circular can be imagined as opening and reversing then finally closing with this line of code.
         display();
     }
-    // detects a loop using floyds algorithm 
-    Node* detectLoop () {
-        Node* slow = head;
-        Node* fast = head;
-        while(true) {
-            if (fast == nullptr) return nullptr;
-            if (fast == slow) break;
-            fast = fast->next->next;
-            slow = slow->next;
+    // to detect loop
+    bool isCyclic()
+    {
+
+        map<Node *, bool> visited;
+        Node *itr = head->next;
+        while (itr != nullptr)
+        {
+            if (visited[itr])
+                return true;
+            visited[itr] = true;
+            itr = itr->next;
         }
-        slow = head;
-        while (fast != slow) {
-            fast = fast->next;
-            slow = slow->next;
+        return false;
+    }
+    // floyd's cycle detection algorithm
+    bool floydsCycleDetection()
+    {
+        if (head == nullptr)
+            cout << "empty list\n";
+        else
+        {
+            Node *slow = head;
+            Node *fast = head;
+            while (fast != nullptr)
+            {
+                if (fast == slow)
+                    return true;
+                if (fast != nullptr)
+                    return false;
+                fast = fast->next->next;
+                slow = slow->next;
+            }
         }
-        return slow;
     }
     // delete a loop from if exists
     void removeLoop() {
-        Node* loopAt = detectLoop();
+        Node* loopAt = floydsCycleDetection();
         if (loopAt != nullptr) {
             Node* itr = loopAt;
             while (itr->next != loopAt) 
@@ -236,8 +255,8 @@ int main()
     list.removeLoop();
     list.Tail()->next = list.Head();//removal of loop undone
     list.reverse();
-    
+
     list.del(list.length());
-    
+
     return 0;
 }
