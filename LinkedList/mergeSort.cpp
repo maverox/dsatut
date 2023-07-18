@@ -69,3 +69,4 @@ ListNode* sortList(ListNode *head) {
     return mergeTwoLists(left, right);
     }
 };
+//running fine on leetcode
