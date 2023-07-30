@@ -1,5 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
+int celebrityRecursive(vector<vector<int>> &celebs, int n) {
+    if (n == 0) return -1;
+    
+} 
 int celebrity(vector<vector<int>> &celebs, int n)
 {
     stack<int> s;   
